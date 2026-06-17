@@ -55,7 +55,6 @@
             width: 100%;
             height: 70vh;
             min-height: 500px;
-            /* Alt kısma doğru sayfanın arka plan rengine (#fdfbf7) yumuşak geçiş */
             background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 60%, #fdfbf7 100%), url('arkaplan.jpg') center/cover no-repeat;
             display: flex;
             align-items: flex-end; 
@@ -106,10 +105,14 @@
         .comment-form { display: flex; gap: 15px; margin-bottom: 3rem; background: rgba(255, 117, 140, 0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); }
         .avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        .input-group { flex-grow: 1; display: flex; gap: 10px; align-items: center; }
-        .input-group input { flex-grow: 1; padding: 14px 20px; border: 1px solid #e2e8f0; border-radius: 30px; outline: none; font-size: 1rem; transition: all 0.3s; background: #fff; }
+        .input-group { flex-grow: 1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .input-group input { padding: 14px 20px; border: 1px solid #e2e8f0; border-radius: 30px; outline: none; font-size: 1rem; transition: all 0.3s; background: #fff; }
         .input-group input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(255, 117, 140, 0.1); }
         
+        /* Yeni isim inputu için stiller */
+        .name-input { flex: 1; min-width: 150px; max-width: 200px; }
+        .comment-input { flex: 3; min-width: 200px; }
+
         .submit-btn { padding: 12px 28px; background-color: var(--primary-color); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3); }
         .submit-btn:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 117, 140, 0.4); }
 
@@ -137,6 +140,7 @@
             .article-body-wrapper { margin-top: -3rem; }
             .article-body { padding: 30px 20px; font-size: 1.05rem; }
             .input-group { flex-direction: column; align-items: stretch; }
+            .name-input, .comment-input { max-width: 100%; }
             .submit-btn { align-self: flex-end; }
         }
     </style>
@@ -155,7 +159,7 @@
         <div class="article-header-content">
             <div class="article-meta">
                 <span class="category">İçerik Bilimi</span>
-                <span class="date">8 Mayıs 2026</span>
+                <span class="date">15 Haziran 2026</span>
             </div>
             <h1 class="article-title">Asit Kullanım Rehberi: AHA, BHA ve PHA Farkları Nelerdir?</h1>
             <p class="article-subtitle">Hangi asit türü senin cilt tipine daha uygun? Leke tedavisi, gözenek temizliği ve hassas ciltler için doğru asit seçimi rehberi.</p>
@@ -215,10 +219,11 @@
                 
                 <!-- Yorum Yapma Formu -->
                 <div class="comment-form">
-                    <!-- Anonim/Sen Profil Resmi -->
+                    <!-- Anonim Profil Resmi -->
                     <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profilin" class="avatar">
                     <div class="input-group">
-                        <input type="text" id="commentInput" placeholder="Bu rehber hakkında ne düşünüyorsun?">
+                        <input type="text" id="nameInput" class="name-input" placeholder="İsim Soyisim">
+                        <input type="text" id="commentInput" class="comment-input" placeholder="Bu rehber hakkında ne düşünüyorsun?">
                         <button type="button" class="submit-btn" id="submitComment">Gönder</button>
                     </div>
                 </div>
@@ -230,7 +235,7 @@
                     <div class="comment">
                         <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80" alt="Ayşe" class="avatar">
                         <div class="comment-content">
-                            <h4>Ayşe Yılmaz <span class="comment-date">2 saat önce</span></h4>
+                            <h4>Ayşe Yılmaz <span class="comment-date">17 Haziran 2026</span></h4>
                             <p>Harika bir rehber olmuş, BHA'nın yağda çözündüğünü bilmiyordum! Siyah noktalarım için hemen salisilik asit deneyeceğim.</p>
                         </div>
                     </div>
@@ -239,7 +244,7 @@
                     <div class="comment">
                         <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Can" class="avatar">
                         <div class="comment-content">
-                            <h4>Can Demir <span class="comment-date">5 saat önce</span></h4>
+                            <h4>Can Demir <span class="comment-date">16 Haziran 2026</span></h4>
                             <p>Hassas bir cildim olduğu için asitlerden hep korkuyordum, PHA tam aradığım şey sanırım. Teşekkürler Glow & Care ekibi.</p>
                         </div>
                     </div>
@@ -256,19 +261,27 @@
     <!-- Yorum Ekleme Scripti -->
     <script>
         document.getElementById('submitComment').addEventListener('click', function() {
-            const input = document.getElementById('commentInput');
-            const text = input.value.trim();
+            const nameInput = document.getElementById('nameInput');
+            const commentInput = document.getElementById('commentInput');
+            
+            let userName = nameInput.value.trim();
+            const text = commentInput.value.trim();
+            
+            // Eğer isim kısmı boş bırakıldıysa otomatik Anonim yap
+            if (userName === "") {
+                userName = "Anonim Kullanıcı";
+            }
             
             if(text !== "") {
                 const commentsList = document.getElementById('commentsList');
                 const newComment = document.createElement('div');
                 newComment.className = 'comment new-comment';
                 
-                // Sen yorum yaptığında eklenecek yapı
+                // Formdan gelen isimle yorumu ekle
                 newComment.innerHTML = `
-                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Sen" class="avatar">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="${userName}" class="avatar">
                     <div class="comment-content">
-                        <h4>Sen <span class="comment-date">Şimdi</span></h4>
+                        <h4>${userName} <span class="comment-date">Şimdi</span></h4>
                         <p>${text}</p>
                     </div>
                 `;
@@ -276,18 +289,25 @@
                 // Yorumu en başa ekle
                 commentsList.insertBefore(newComment, commentsList.firstChild);
                 
-                // Inputu temizle
-                input.value = "";
+                // Inputları temizle
+                commentInput.value = "";
+                nameInput.value = "";
                 
                 // Yorum sayısını güncelle
                 const countElement = document.getElementById('commentCount');
-                const currentCount = parseInt(countElement.innerText.match(/\\d+/)[0]);
-                countElement.innerText = \`Yorumlar (\${currentCount + 1})\`;
+                const currentCount = parseInt(countElement.innerText.match(/\d+/)[0]);
+                countElement.innerText = `Yorumlar (${currentCount + 1})`;
             }
         });
 
         // Enter tuşu ile yorum gönderme
         document.getElementById('commentInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('submitComment').click();
+            }
+        });
+        
+        document.getElementById('nameInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 document.getElementById('submitComment').click();
             }
