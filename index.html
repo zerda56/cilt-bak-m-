@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glow & Care | Doğal Cilt Bakımı</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+        :root { 
+            --primary-color: #ff758c; 
+            --primary-hover: #ff5c77; 
+            --bg-overlay: rgba(253, 251, 247, 0.85); 
+            --card-bg: rgba(255, 255, 255, 0.95); 
+            --text-color: #2c3e50; 
+            --text-muted: #7f8c8d; 
+            --border-color: rgba(255, 117, 140, 0.2); 
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { 
+            color: var(--text-color); 
+            line-height: 1.5; 
+            overflow-x: hidden; 
+            background-color: #fdfbf7;
+        }
+
+        /* PERFORMANS OPTİMİZASYONU: Arka plan artık GPU katmanında render ediliyor */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1616394584738-bc6326ee10af?auto=format&fit=crop&q=80') center/cover;
+            z-index: -1;
+            will-change: transform; /* Tarayıcıya bu elementin donanım ivmesi kullanacağını bildiriyoruz */
+        }
+
+        /* Animasyonlar donanım hızlandırmalı hale getirildi */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform, opacity;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        header { background-color: rgba(255, 255, 255, 0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo { height: 40px; width: auto; font-size: 2rem; color: var(--primary-color); } 
+        .logo-text { font-size: 1.5rem; font-weight: 700; color: var(--text-color); letter-spacing: 1px; }
+        .logo-text span { color: var(--primary-color); }
+        
+        nav ul { list-style: none; display: flex; gap: 30px; align-items: center; }
+        nav ul li a { color: var(--text-color); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+        nav ul li a:hover { color: var(--primary-color); }
+
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; transition: color 0.3s ease; }
+        .menu-toggle:hover { color: var(--primary-color); }
+
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+        .hero h1 { font-size: 5rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; color: var(--text-color); opacity: 0; transform: translateY(30px); animation: fadeUp 1s forwards 0.5s; }
+        .hero p { font-size: 1.5rem; color: #555; margin-bottom: 2rem; max-width: 600px; font-weight: 400; opacity: 0; transform: translateY(30px); animation: fadeUp 1s forwards 0.8s; }
+        
+        .btn { padding: 14px 32px; background-color: var(--primary-color); color: #fff; text-decoration: none; font-size: 1.1rem; font-weight: 600; border-radius: 30px; transition: all 0.3s ease; opacity: 0; animation: fadeUp 1s forwards 1.1s; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4); }
+        .btn:hover { background-color: var(--primary-hover); transform: scale(1.05); box-shadow: 0 6px 20px rgba(255, 117, 140, 0.6); }
+        .btn-small { padding: 8px 20px; font-size: 0.9rem; opacity: 1; animation: none; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: #fff; padding: 40px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; transform: translateY(20px); transition: all 0.3s ease; border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(0,0,0,0.1); }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.3s; }
+        .modal-close:hover { color: var(--primary-color); }
+        .modal-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; color: var(--text-color); }
+        .modal-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+        
+        .user-profile { display: none; align-items: center; gap: 15px; background: #fff; padding: 5px 15px; border-radius: 30px; border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(255, 117, 140, 0.1); }
+        .user-profile img { width: 30px; height: 30px; border-radius: 50%; }
+        .user-profile span { font-size: 0.9rem; font-weight: 500; color: var(--text-color); }
+        .logout-btn { color: #e74c3c; cursor: pointer; font-size: 0.8rem; margin-left: 10px; }
+
+        .page-content { background-color: transparent; } 
+
+        .models { padding: 8rem 5%; text-align: center; }
+        .models h2 { font-size: 3rem; margin-bottom: 4rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        
+        .card { background-color: var(--card-bg); border-radius: 24px; overflow: hidden; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s, box-shadow 0.4s; display: flex; flex-direction: column; text-align: left; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); backdrop-filter: blur(10px); }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 15px 40px rgba(255, 117, 140, 0.2); }
+        
+        .card img { width: 100%; height: 280px; object-fit: cover; }
+        .card-content { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; color: var(--text-color); }
+        .card p { margin-bottom: 25px; color: var(--text-muted); font-size: 1.05rem; }
+        .card-btn { align-self: flex-start; padding: 10px 24px; background-color: var(--primary-color); color: white; border-radius: 20px; text-decoration: none; transition: all 0.3s ease; font-size: 1rem; font-weight: 500; }
+        .card-btn:hover { background-color: var(--primary-hover); transform: scale(1.05); }
+
+        .blog-section { padding: 8rem 5%; }
+        .blog-header { text-align: center; margin-bottom: 4rem; }
+        .blog-header h2 { font-size: 3rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); }
+        
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        
+        .blog-card { background-color: var(--card-bg); border-radius: 24px; padding: 35px 30px; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s, box-shadow 0.4s; display: flex; flex-direction: column; text-align: left; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); backdrop-filter: blur(10px); }
+        .blog-card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 10px 30px rgba(255, 117, 140, 0.15); }
+        
+        .blog-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem; font-weight: 600; }
+        .blog-category { color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; font-weight: 700; }
+        .blog-date { color: var(--text-muted); font-weight: 400; }
+        
+        .blog-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; color: var(--text-color); line-height: 1.3; }
+        .blog-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.05rem; flex-grow: 1; }
+        
+        .read-more { color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 1rem; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; transition: color 0.3s; }
+        .read-more i { font-size: 0.9rem; transition: transform 0.3s; }
+        .read-more:hover { color: var(--primary-hover); }
+        .read-more:hover i { transform: translateX(5px); }
+
+        .sales-stats { padding: 8rem 5%; text-align: center; }
+        .sales-stats h2 { font-size: 3rem; margin-bottom: 4rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .stat-box { background-color: var(--card-bg); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); }
+        .stat-number { font-size: 4rem; font-weight: 800; color: var(--primary-color); margin-bottom: 5px; letter-spacing: -2px; }
+        .stat-text { font-size: 1.2rem; color: var(--text-muted); font-weight: 500; }
+
+        .contact-section { padding: 6rem 5% 3rem; text-align: center; }
+        .contact-section h2 { font-size: 3rem; color: var(--text-color); margin-bottom: 1.5rem; font-weight: 700; letter-spacing: -1px; }
+        .contact-desc { color: var(--text-muted); max-width: 600px; margin: 0 auto 3rem auto; font-size: 1.2rem; }
+        
+        .email-link { color: var(--primary-color); text-decoration: none; font-size: 1.2rem; display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; background-color: var(--card-bg); border-radius: 30px; margin-bottom: 3rem; transition: all 0.3s ease; font-weight: 600; border: 1px solid var(--border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .email-link:hover { background-color: var(--primary-color); color: #ffffff; transform: scale(1.05); border-color: var(--primary-color); }
+        
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 4rem; }
+        .social-icon { display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; background-color: var(--card-bg); color: var(--primary-color); border-radius: 50%; text-decoration: none; font-size: 1.5rem; transition: all 0.3s ease; border: 1px solid var(--border-color); }
+        .social-icon:hover { background-color: var(--primary-color); color: #ffffff; transform: scale(1.1); border-color: var(--primary-color); }
+        
+        .copyright { border-top: 1px solid var(--border-color); padding-top: 2rem; font-size: 0.9rem; color: var(--text-muted); }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 768px) { 
+            .hero h1 { font-size: 3.5rem; } 
+            header { padding: 1rem 20px; }
+            .menu-toggle { display: block; margin-left: auto; z-index: 1002; } 
+            nav { position: absolute; top: 75px; right: 20px; width: 250px; z-index: 1001; perspective: 1000px; }
+            nav ul { position: relative; width: 100%; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: saturate(180%) blur(25px); -webkit-backdrop-filter: saturate(180%) blur(25px); border: 1px solid var(--border-color); border-radius: 18px; flex-direction: column; gap: 0; padding: 10px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transform: scale(0.9) translateY(-15px); transform-origin: top right; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); } 
+            nav ul.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); }
+            nav ul li { text-align: left; padding: 0; border: none; }
+            nav ul li a { font-size: 1.05rem; display: block; padding: 12px 16px; border-radius: 12px; transition: background-color 0.2s ease; }
+            nav ul li a:hover { background-color: rgba(255, 117, 140, 0.1); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo-container">
+            <i class="fas fa-spa nav-logo"></i>
+            <span class="logo-text">Glow & <span>Care</span></span>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <nav>
+            <ul id="nav-list">
+                <li><a href="#home">Ana Sayfa</a></li>
+                <li><a href="#products">Koleksiyon</a></li>
+                <li><a href="#blog">Bakım Rehberi</a></li>
+                <li><a href="#results">Klinik Sonuçlar</a></li>
+                <li><a href="#contact">İletişim</a></li>
+                
+                <li id="loginNavItem"><button id="openLoginBtn" class="btn btn-small">Giriş Yap</button></li>
+                <li id="userProfileItem" class="user-profile">
+                    <img id="userAvatar" src="" alt="Profil">
+                    <span id="userName">İsim</span>
+                    <i class="fas fa-sign-out-alt logout-btn" id="logoutBtn" title="Çıkış Yap"></i>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <i class="fas fa-times modal-close" id="closeLoginBtn"></i>
+            <h2 class="modal-title">Glow & Care</h2>
+            <p class="modal-desc">Sana özel cilt bakım rutini ve ipuçları için Google hesabınla giriş yap.</p>
+            <div id="buttonDiv" style="display: flex; justify-content: center;"></div>
+        </div>
+    </div>
+
+    <section class="hero" id="home">
+        <h1>Saf Güzellik, Doğal Işıltı</h1>
+        <p>Bilim ve doğanın kusursuz birleşimi. Cildini derinlemesine beslemeye ve yenilemeye hazır mısın?</p>
+        <a href="#products" class="btn">Ürünleri Keşfet</a>
+    </section>
+
+    <div class="page-content">
+        
+        <section class="models" id="products">
+            <h2 class="reveal">Öne Çıkan Ürünler</h2>
+            <div class="grid">
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80" alt="Nemlendirici Serum">
+                    <div class="card-content">
+                        <div>
+                            <h3>Hyalüronik Asit Serum</h3>
+                            <p>Cilt bariyerini güçlendirerek gün boyu süren derinlemesine nem sağlar. İnce çizgilerin görünümünü azaltır.</p>
+                        </div>
+                        <a href="#" class="card-btn">İncele</a>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80" alt="C Vitamini">
+                    <div class="card-content">
+                        <div>
+                            <h3>C Vitamini Kompleksi</h3>
+                            <p>Antioksidan gücüyle cilt tonunu eşitler ve yorgun görünüme karşı savaşarak doğal ışıltınızı ortaya çıkarır.</p>
+                        </div>
+                        <a href="#" class="card-btn">İncele</a>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=600&q=80" alt="Bariyer Kremi">
+                    <div class="card-content">
+                        <div>
+                            <h3>Seramid Onarıcı Krem</h3>
+                            <p>Hassaslaşmış ciltler için anında yatıştırma. Çevresel faktörlere karşı cildiniz için koruyucu bir kalkan.</p>
+                        </div>
+                        <a href="#" class="card-btn">İncele</a>
+                    </div>
+                </div>
+                
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=600&q=80" alt="Güneş Kremi">
+                    <div class="card-content">
+                        <div>
+                            <h3>Geniş Spektrumlu SPF 50</h3>
+                            <p>Lekelenmeye karşı etkili, beyaz iz bırakmayan ve makyaj altına mükemmel uyum sağlayan koruma.</p>
+                        </div>
+                        <a href="#" class="card-btn">İncele</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog-section" id="blog">
+            <div class="blog-header reveal">
+                <h2>Cilt Bakım Rehberi</h2>
+            </div>
+            <div class="blog-grid">
+                
+                <div class="blog-card reveal">
+                    <div class="blog-meta">
+                        <span class="blog-category">İçerik Bilimi</span>
+                        <span class="blog-date">8 Mayıs 2026</span>
+                    </div>
+                    <h3>Asit Kullanım Rehberi: AHA, BHA ve PHA Farkları Nelerdir?</h3>
+                    <p>Hangi asit türü senin cilt tipine daha uygun? Leke tedavisi, gözenek temizliği ve hassas ciltler için doğru asit seçimi rehberi.</p>
+                    <a href="#" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="blog-card reveal">
+                    <div class="blog-meta">
+                        <span class="blog-category">Wellness</span>
+                        <span class="blog-date">6 Mayıs 2026</span>
+                    </div>
+                    <h3>Biyoteknolojik Cilt Bakımı: Geleceğin Formülleri</h3>
+                    <p>Doğayı tüketmeden, laboratuvar ortamında geliştirilen vegan ve biyolojik olarak cilde en uyumlu moleküllerin devrimi.</p>
+                    <a href="#" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="blog-card reveal">
+                    <div class="blog-meta">
+                        <span class="blog-category">Rutin</span>
+                        <span class="blog-date">28 Nisan 2026</span>
+                    </div>
+                    <h3>Kış Aylarında Cilt Bariyerini Korumak İçin 5 Altın Kural</h3>
+                    <p>Soğuk hava, rüzgar ve nemsiz ortamların cildinize verdiği hasarı minimuma indirmek için günlük rutininize eklemeniz gerekenler.</p>
+                    <a href="#" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="blog-card reveal">
+                    <div class="blog-meta">
+                        <span class="blog-category">Trendler</span>
+                        <span class="blog-date">15 Nisan 2026</span>
+                    </div>
+                    <h3>Cilt Mikrobiyomu Neden Yeni Odak Noktamız?</h3>
+                    <p>Sadece cildi temizlemek yetmez. Cilt yüzeyindeki yararlı bakterileri besleyen prebiyotik içeriklerin önemi.</p>
+                    <a href="#" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="sales-stats" id="results">
+            <h2 class="reveal">Klinik Sonuçlarımız</h2>
+            <div class="stats-grid">
+                <div class="stat-box reveal"><div class="stat-number">%94</div><div class="stat-text">Nem Artış Oranı</div></div>
+                <div class="stat-box reveal"><div class="stat-number">24S</div><div class="stat-text">Kesintisiz Cilt Bariyeri Koruması</div></div>
+                <div class="stat-box reveal"><div class="stat-number">10+</div><div class="stat-text">Aktif Bitkisel ve Biyo-Bileşen</div></div>
+                <div class="stat-box reveal"><div class="stat-number">500K+</div><div class="stat-text">Dünya Çapında Mutlu Kullanıcı</div></div>
+            </div>
+        </section>
+
+        <footer class="contact-section reveal" id="contact">
+            <h2>Bize Ulaşın</h2>
+            <p class="contact-desc">Cilt tipinize uygun ürün seçimi, rutin danışmanlığı veya marka işbirlikleri için güzellik uzmanlarımıza ulaşabilirsiniz.</p>
+            <a href="mailto:hello@glowandcare.com" class="email-link"><i class="fas fa-envelope"></i> hello@glowandcare.com</a>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-pinterest"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Glow & Care Cosmetics. Tüm hakları saklıdır.</p>
+        </footer>
+        
+    </div> 
+    
+    <script>
+        // --- 1. SAYFA İÇİ YUMUŞAK KAYDIRMA ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // --- 2. ULTRA-PERFORMANSLI REVEAL EFEKTİ (INTERSECTION OBSERVER) ---
+        // Eski scroll dinleyicisi yerine tarayıcıyı yormayan modern asenkron API kullanıldı.
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Element bir kere açıldıktan sonra takibi bırakıp performansı zirveye çıkarıyoruz
+                }
+            });
+        }, observerOptions);
+
+        // --- 3. MOBİL MENÜ İŞLEMLERİ ---
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-list');
+        const menuIcon = mobileMenu.querySelector('i');
+
+        mobileMenu.addEventListener('click', () => {
+            navList.classList.toggle('active');
+            if(navList.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('active');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // --- 4. GOOGLE İLE GİRİŞ YAPMA (MODAL & AUTH) İŞLEMLERİ ---
+        const loginModal = document.getElementById('loginModal');
+        const openLoginBtn = document.getElementById('openLoginBtn');
+        const closeLoginBtn = document.getElementById('closeLoginBtn');
+
+        openLoginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+        });
+
+        closeLoginBtn.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
+        });
+
+        function decodeJwtResponse(token) {
+            let base64Url = token.split('.')[1];
+            let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        function handleCredentialResponse(response) {
+            const responsePayload = decodeJwtResponse(response.credential);
+            loginModal.classList.remove('active');
+            document.getElementById('loginNavItem').style.display = 'none';
+            document.getElementById('userProfileItem').style.display = 'flex';
+            document.getElementById('userName').innerText = responsePayload.given_name;
+            document.getElementById('userAvatar').src = responsePayload.picture;
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            document.getElementById('loginNavItem').style.display = 'block';
+            document.getElementById('userProfileItem').style.display = 'none';
+        });
+
+        window.onload = function () {
+            // Reveal elemanlarını gözlemciye kaydediyoruz
+            document.querySelectorAll(".reveal").forEach(el => {
+                revealObserver.observe(el);
+            });
+            
+            google.accounts.id.initialize({
+                client_id: "360570378366-eqgg07dufk21oe1uufqtehecmbai5c4n.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            
+            google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                { theme: "outline", size: "large", shape: "pill" } 
+            );
+        }
+    </script>
+</body>
+</html>
