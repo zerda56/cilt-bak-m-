@@ -23,19 +23,9 @@
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
         
-        body { 
-            color: var(--text-color); 
-            line-height: 1.5; 
-            overflow-x: hidden; 
-            background-color: var(--bg-color);
-        }
+        body { color: var(--text-color); line-height: 1.5; overflow-x: hidden; background-color: var(--bg-color); }
 
-        .reveal { 
-            opacity: 0; 
-            transform: translateY(40px); 
-            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform, opacity;
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform, opacity; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         header { background-color: rgba(255, 255, 255, 0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color); }
@@ -47,20 +37,13 @@
         nav ul { list-style: none; display: flex; gap: 30px; align-items: center; }
         nav ul li a { color: var(--text-color); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
         nav ul li a:hover { color: var(--primary-color); }
+        .search-icon-btn { cursor: pointer; font-size: 1.1rem; color: var(--text-color); transition: color 0.3s; display: flex; align-items: center; gap: 5px; }
+        .search-icon-btn:hover { color: var(--primary-color); }
 
         .menu-toggle { display: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; transition: color 0.3s ease; }
         .menu-toggle:hover { color: var(--primary-color); }
 
-        .hero { 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            padding: 0 20px; 
-            background: linear-gradient(to bottom, rgba(253, 251, 247, 0.3) 0%, rgba(253, 251, 247, 0.8) 75%, var(--bg-color) 100%), url('https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-        }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; background: linear-gradient(to bottom, rgba(253, 251, 247, 0.3) 0%, rgba(253, 251, 247, 0.8) 75%, var(--bg-color) 100%), url('https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; }
         .hero h1 { font-size: 5rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; color: var(--text-color); opacity: 0; transform: translateY(30px); animation: fadeUp 1s forwards 0.5s; }
         .hero p { font-size: 1.5rem; color: #555; margin-bottom: 2rem; max-width: 600px; font-weight: 500; opacity: 0; transform: translateY(30px); animation: fadeUp 1s forwards 0.8s; text-shadow: 0 2px 10px rgba(255,255,255,0.5); }
         
@@ -68,19 +51,31 @@
         .btn:hover { background-color: var(--primary-hover); transform: scale(1.05); box-shadow: 0 6px 20px rgba(255, 117, 140, 0.6); }
         .btn-small { padding: 8px 20px; font-size: 0.9rem; opacity: 1; animation: none; }
 
-        /* Modal Genel Stilleri */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        /* ARAMA MODALI */
+        .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(253, 251, 247, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s ease; padding: 20px; }
+        .search-overlay.active { opacity: 1; visibility: visible; }
+        .close-search { position: absolute; top: 30px; right: 40px; font-size: 2.5rem; color: var(--text-color); cursor: pointer; transition: color 0.3s; }
+        .close-search:hover { color: var(--primary-color); }
+        .search-container { width: 100%; max-width: 700px; text-align: center; }
+        .search-container input { width: 100%; padding: 20px 30px; font-size: 2rem; border: none; border-bottom: 3px solid var(--primary-color); background: transparent; color: var(--text-color); outline: none; margin-bottom: 30px; }
+        .search-container input::placeholder { color: #a0aec0; font-weight: 300; }
+        .search-results-box { text-align: left; max-height: 50vh; overflow-y: auto; }
+        .search-item { padding: 20px; background: #fff; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border-color); display: block; text-decoration: none; transition: all 0.3s; }
+        .search-item:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 117, 140, 0.1); }
+        .search-item-cat { font-size: 0.8rem; color: var(--primary-color); font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        .search-item-title { font-size: 1.3rem; color: var(--text-color); font-weight: 700; }
+
+        /* Modallar Genel */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.3s; z-index: 10; }
         .modal-close:hover { color: var(--primary-color); }
         
-        /* Giriş Modalı */
         .login-modal-content { background-color: #fff; padding: 40px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; transform: translateY(20px); transition: all 0.3s ease; border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(0,0,0,0.1); position: relative; }
         .modal-overlay.active .login-modal-content { transform: translateY(0); }
         .modal-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; color: var(--text-color); }
         .modal-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
         
-        /* ÜRÜN DETAY MODALI */
         .product-modal-content { background-color: #fff; border-radius: 24px; width: 90%; max-width: 800px; display: flex; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(255, 117, 140, 0.15); overflow: hidden; position: relative; }
         .modal-overlay.active .product-modal-content { transform: translateY(0); }
         .product-modal-img-container { flex: 1; min-width: 350px; position: relative; }
@@ -103,16 +98,12 @@
 
         .models { padding: 4rem 5% 8rem; text-align: center; }
         .models h2 { font-size: 3rem; margin-bottom: 4rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); }
-        
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; }
         
         .card { background-color: var(--card-bg); border-radius: 24px; overflow: hidden; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s, box-shadow 0.4s; display: flex; flex-direction: column; text-align: left; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); backdrop-filter: blur(10px); }
         .card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 15px 40px rgba(255, 117, 140, 0.2); }
-        
         .card img { width: 100%; height: 300px; object-fit: cover; }
-        
         .card-content { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        
         .card h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; color: var(--text-color); }
         .card p { margin-bottom: 20px; color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
         .card-btn { align-self: flex-start; padding: 10px 24px; background-color: var(--primary-color); color: white; border-radius: 30px; text-decoration: none; transition: all 0.3s ease; font-size: 1rem; font-weight: 600; border: none; cursor: pointer; font-family: inherit; }
@@ -122,11 +113,9 @@
         .survey-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: var(--primary-color); filter: blur(120px); opacity: 0.15; z-index: -1; pointer-events: none; }
         .survey-section h2 { font-size: 2.8rem; margin-bottom: 1rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); position: relative; }
         .survey-section p.subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; }
-        
         .survey-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 900px; margin: 0 auto; position: relative; }
         .survey-btn { flex: 1 1 calc(50% - 20px); min-width: 250px; padding: 24px; font-size: 1.2rem; font-weight: 600; color: var(--text-color); background: rgba(255, 255, 255, 0.9); border: 2px solid transparent; border-radius: 20px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 5px 20px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; gap: 10px; backdrop-filter: blur(10px); }
         .survey-btn:hover { border-color: var(--primary-color); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(255, 117, 140, 0.3); color: var(--primary-color); }
-        
         .survey-result { display: none; margin-top: 2rem; padding: 50px 40px; background: rgba(255, 255, 255, 0.95); border-radius: 24px; border: 1px solid rgba(255, 117, 140, 0.4); box-shadow: 0 20px 40px rgba(255, 117, 140, 0.1); animation: fadeUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; max-width: 700px; margin-left: auto; margin-right: auto; position: relative; backdrop-filter: blur(10px); }
         .survey-result h3 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.8rem; font-weight: 800; }
         .survey-result p { color: var(--text-color); font-size: 1.15rem; line-height: 1.7; margin-bottom: 0; }
@@ -134,28 +123,45 @@
         .reset-btn { margin-top: 25px; background: none; border: none; color: var(--text-muted); text-decoration: underline; cursor: pointer; font-size: 0.95rem; transition: color 0.3s; }
         .reset-btn:hover { color: var(--primary-hover); }
 
+        /* BLOG FİLTRELEME CSS */
         .blog-section { padding: 8rem 5%; }
-        .blog-header { text-align: center; margin-bottom: 4rem; }
+        .blog-header { text-align: center; margin-bottom: 2rem; }
         .blog-header h2 { font-size: 3rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); }
         
+        .blog-filters { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 4rem; }
+        .filter-btn { padding: 8px 24px; background: transparent; border: 2px solid rgba(255, 117, 140, 0.3); border-radius: 30px; font-size: 0.95rem; font-weight: 600; color: var(--text-color); cursor: pointer; transition: all 0.3s; }
+        .filter-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        .filter-btn.active { background-color: var(--primary-color); border-color: var(--primary-color); color: #fff; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3); }
+
         .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        
         .blog-card { background-color: var(--card-bg); border-radius: 24px; padding: 35px 30px; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s, box-shadow 0.4s; display: flex; flex-direction: column; text-align: left; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); backdrop-filter: blur(10px); }
         .blog-card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 10px 30px rgba(255, 117, 140, 0.15); }
-        
         .blog-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem; font-weight: 600; }
         .blog-category { color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; font-weight: 700; }
         .blog-date { color: var(--text-muted); font-weight: 400; }
-        
         .blog-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; color: var(--text-color); line-height: 1.3; }
         .blog-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.05rem; flex-grow: 1; }
         
-        .read-more { color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 1rem; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; transition: color 0.3s; }
+        /* SOSYAL PAYLAŞIM VE LİNK ALANI */
+        .blog-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 20px; }
+        .read-more { color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px; transition: color 0.3s; }
         .read-more i { font-size: 0.9rem; transition: transform 0.3s; }
         .read-more:hover { color: var(--primary-hover); }
         .read-more:hover i { transform: translateX(5px); }
+        .share-icon { color: var(--text-muted); cursor: pointer; font-size: 1.2rem; transition: all 0.3s; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 50%; }
+        .share-icon:hover { color: #fff; background: var(--primary-color); transform: scale(1.1); }
 
-        .contact-section { padding: 6rem 5% 3rem; text-align: center; }
+        /* BÜLTEN KUTUSU CSS */
+        .newsletter-section { max-width: 1000px; margin: 0 auto 6rem auto; padding: 0 20px; }
+        .newsletter-card { background: linear-gradient(135deg, var(--primary-hover), var(--primary-color)); border-radius: 30px; padding: 50px; color: #fff; text-align: center; box-shadow: 0 20px 40px rgba(255, 117, 140, 0.2); }
+        .newsletter-card h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 15px; letter-spacing: -1px; }
+        .newsletter-card p { font-size: 1.1rem; margin-bottom: 30px; opacity: 0.9; }
+        .newsletter-form { display: flex; max-width: 500px; margin: 0 auto; background: #fff; padding: 8px; border-radius: 40px; }
+        .newsletter-form input { flex-grow: 1; border: none; outline: none; padding: 10px 20px; font-size: 1rem; border-radius: 40px; color: var(--text-color); }
+        .newsletter-form button { background: var(--text-color); color: #fff; border: none; padding: 12px 30px; font-weight: 600; border-radius: 30px; cursor: pointer; transition: background 0.3s; }
+        .newsletter-form button:hover { background: #000; }
+
+        .contact-section { padding: 4rem 5% 3rem; text-align: center; }
         .contact-section h2 { font-size: 3rem; color: var(--text-color); margin-bottom: 1.5rem; font-weight: 700; letter-spacing: -1px; }
         .contact-desc { color: var(--text-muted); max-width: 600px; margin: 0 auto 3rem auto; font-size: 1.2rem; }
         
@@ -180,18 +186,30 @@
             nav ul li { text-align: left; padding: 0; border: none; }
             nav ul li a { font-size: 1.05rem; display: block; padding: 12px 16px; border-radius: 12px; transition: background-color 0.2s ease; }
             nav ul li a:hover { background-color: rgba(255, 117, 140, 0.1); }
-
             .grid { grid-template-columns: 1fr; }
             .survey-btn { flex: 1 1 100%; }
             .survey-section { padding: 4rem 20px; margin: 2rem 20px; }
-
             .product-modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; }
             .product-modal-img-container { min-height: 250px; flex: none; }
             .product-modal-info { padding: 25px; }
+            .newsletter-card { padding: 30px 20px; }
+            .newsletter-form { flex-direction: column; background: transparent; padding: 0; gap: 10px; }
+            .newsletter-form input { border-radius: 30px; padding: 15px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ARAMA MODALI -->
+    <div class="search-overlay" id="searchOverlay">
+        <i class="fas fa-times close-search" id="closeSearchBtn"></i>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Ne öğrenmek istersin? (Sivilce, Asit...)">
+            <div class="search-results-box" id="searchResultsBox">
+                <!-- JS ile dolacak -->
+            </div>
+        </div>
+    </div>
 
     <header>
         <a href="#" class="logo-container">
@@ -209,8 +227,8 @@
                 <li><a href="#products">Koleksiyon</a></li>
                 <li><a href="#blog">Bakım Rehberi</a></li>
                 <li><a href="#survey">Cilt Analizi</a></li>
-                <li><a href="#contact">İletişim</a></li>
-                
+                <!-- Arama İkonu Eklendi -->
+                <li class="search-icon-btn" id="openSearchBtn"><i class="fas fa-search"></i> <span style="font-size: 0.95rem; font-weight: 500;">Ara</span></li>
                 <li id="loginNavItem"><button id="openLoginBtn" class="btn btn-small">Giriş Yap</button></li>
                 <li id="userProfileItem" class="user-profile">
                     <img id="userAvatar" src="" alt="Profil">
@@ -235,26 +253,20 @@
     <div class="modal-overlay" id="productModal">
         <div class="modal-content product-modal-content">
             <i class="fas fa-times modal-close" onclick="closeProductModal()"></i>
-            
             <div class="product-modal-img-container">
                 <img id="pm-img" src="" alt="Ürün Görseli">
             </div>
-            
             <div class="product-modal-info">
                 <h2 id="pm-title">Ürün Başlığı</h2>
-                <p id="pm-desc" class="desc">Açıklama metni buraya gelecek.</p>
-                
+                <p id="pm-desc" class="desc">Açıklama metni.</p>
                 <div class="pm-features">
                     <h4><i class="fas fa-leaf"></i> Öne Çıkan Özellikler</h4>
-                    <ul id="pm-features-list">
-                    </ul>
+                    <ul id="pm-features-list"></ul>
                 </div>
-                
                 <div class="pm-where">
                     <h4><i class="fas fa-map-marker-alt"></i> Nerede Bulunur?</h4>
-                    <p id="pm-where-text">Satış noktaları buraya gelecek.</p>
+                    <p id="pm-where-text">Satış noktaları.</p>
                 </div>
-                
                 <button class="btn" style="width: 100%; margin-top: 10px;" onclick="closeProductModal()">Kapat</button>
             </div>
         </div>
@@ -271,7 +283,7 @@
         <section class="models" id="products">
             <h2 class="reveal">Öne Çıkan Ürünler</h2>
             <div class="grid">
-                
+                <!-- ÜRÜNLER (Aynı bıraktım) -->
                 <div class="card reveal">
                     <img src="https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=800&q=80" alt="Nemlendirici Serum">
                     <div class="card-content">
@@ -337,7 +349,6 @@
                         <button class="card-btn" onclick="openProductModal('gozkremi')">İncele</button>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -363,49 +374,88 @@
             <div class="blog-header reveal">
                 <h2>Cilt Bakım Rehberi</h2>
             </div>
+            
+            <!-- YENİ: Kategori Filtreleri -->
+            <div class="blog-filters reveal">
+                <button class="filter-btn active" data-filter="all">Tümü</button>
+                <button class="filter-btn" data-filter="İçerik Bilimi">İçerik Bilimi</button>
+                <button class="filter-btn" data-filter="Wellness">Wellness</button>
+                <button class="filter-btn" data-filter="Rutin">Rutin</button>
+                <button class="filter-btn" data-filter="Trendler">Trendler</button>
+            </div>
+
             <div class="blog-grid">
-                
-                <div class="blog-card reveal">
-                    <div class="blog-meta">
-                        <span class="blog-category">İçerik Bilimi</span>
-                        <span class="blog-date">8 Mayıs 2026</span>
+                <!-- Kartlara data-category eklendi ve Paylaş ikonları konuldu -->
+                <div class="blog-card reveal" data-category="İçerik Bilimi">
+                    <div>
+                        <div class="blog-meta">
+                            <span class="blog-category">İçerik Bilimi</span>
+                            <span class="blog-date">8 Mayıs 2026</span>
+                        </div>
+                        <h3>Asit Kullanım Rehberi: AHA, BHA ve PHA Farkları Nelerdir?</h3>
+                        <p>Hangi asit türü senin cilt tipine daha uygun? Leke tedavisi, gözenek temizliği ve hassas ciltler için doğru asit seçimi rehberi.</p>
                     </div>
-                    <h3>Asit Kullanım Rehberi: AHA, BHA ve PHA Farkları Nelerdir?</h3>
-                    <p>Hangi asit türü senin cilt tipine daha uygun? Leke tedavisi, gözenek temizliği ve hassas ciltler için doğru asit seçimi rehberi.</p>
-                    <a href="içerikbilimi.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                    <div class="blog-actions">
+                        <a href="içerikbilimi.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                        <div class="share-icon" title="Paylaş" onclick="shareArticle('Asit Kullanım Rehberi', 'içerikbilimi.html')"><i class="fas fa-share-alt"></i></div>
+                    </div>
                 </div>
 
-                <div class="blog-card reveal">
-                    <div class="blog-meta">
-                        <span class="blog-category">Wellness</span>
-                        <span class="blog-date">6 Mayıs 2026</span>
+                <div class="blog-card reveal" data-category="Wellness">
+                    <div>
+                        <div class="blog-meta">
+                            <span class="blog-category">Wellness</span>
+                            <span class="blog-date">6 Mayıs 2026</span>
+                        </div>
+                        <h3>Biyoteknolojik Cilt Bakımı: Geleceğin Formülleri</h3>
+                        <p>Doğayı tüketmeden, laboratuvar ortamında geliştirilen vegan ve biyolojik olarak cilde en uyumlu moleküllerin devrimi.</p>
                     </div>
-                    <h3>Biyoteknolojik Cilt Bakımı: Geleceğin Formülleri</h3>
-                    <p>Doğayı tüketmeden, laboratuvar ortamında geliştirilen vegan ve biyolojik olarak cilde en uyumlu moleküllerin devrimi.</p>
-                    <!-- YENİ LİNK EKLENDİ -->
-                    <a href="wellness.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                    <div class="blog-actions">
+                        <a href="wellness.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                        <div class="share-icon" title="Paylaş" onclick="shareArticle('Biyoteknolojik Cilt Bakımı', 'wellness.html')"><i class="fas fa-share-alt"></i></div>
+                    </div>
                 </div>
 
-                <div class="blog-card reveal">
-                    <div class="blog-meta">
-                        <span class="blog-category">Rutin</span>
-                        <span class="blog-date">28 Nisan 2026</span>
+                <div class="blog-card reveal" data-category="Rutin">
+                    <div>
+                        <div class="blog-meta">
+                            <span class="blog-category">Rutin</span>
+                            <span class="blog-date">28 Nisan 2026</span>
+                        </div>
+                        <h3>Kış Aylarında Cilt Bariyerini Korumak İçin 5 Altın Kural</h3>
+                        <p>Soğuk hava, rüzgar ve nemsiz ortamların cildinize verdiği hasarı minimuma indirmek için günlük rutininize eklemeniz gerekenler.</p>
                     </div>
-                    <h3>Kış Aylarında Cilt Bariyerini Korumak İçin 5 Altın Kural</h3>
-                    <p>Soğuk hava, rüzgar ve nemsiz ortamların cildinize verdiği hasarı minimuma indirmek için günlük rutininize eklemeniz gerekenler.</p>
-                    <!-- YENİ LİNK EKLENDİ -->
-                    <a href="rutin.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                    <div class="blog-actions">
+                        <a href="rutin.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                        <div class="share-icon" title="Paylaş" onclick="shareArticle('Kış Aylarında Cilt Bariyerini Korumak', 'rutin.html')"><i class="fas fa-share-alt"></i></div>
+                    </div>
                 </div>
 
-                <div class="blog-card reveal">
-                    <div class="blog-meta">
-                        <span class="blog-category">Trendler</span>
-                        <span class="blog-date">15 Nisan 2026</span>
+                <div class="blog-card reveal" data-category="Trendler">
+                    <div>
+                        <div class="blog-meta">
+                            <span class="blog-category">Trendler</span>
+                            <span class="blog-date">15 Nisan 2026</span>
+                        </div>
+                        <h3>Cilt Mikrobiyomu Neden Yeni Odak Noktamız?</h3>
+                        <p>Sadece cildi temizlemek yetmez. Cilt yüzeyindeki yararlı bakterileri besleyen prebiyotik içeriklerin önemi.</p>
                     </div>
-                    <h3>Cilt Mikrobiyomu Neden Yeni Odak Noktamız?</h3>
-                    <p>Sadece cildi temizlemek yetmez. Cilt yüzeyindeki yararlı bakterileri besleyen prebiyotik içeriklerin önemi.</p>
-                    <!-- YENİ LİNK EKLENDİ -->
-                    <a href="trendler.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                    <div class="blog-actions">
+                        <a href="trendler.html" class="read-more">Makaleyi Oku <i class="fas fa-arrow-right"></i></a>
+                        <div class="share-icon" title="Paylaş" onclick="shareArticle('Cilt Mikrobiyomu', 'trendler.html')"><i class="fas fa-share-alt"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- YENİ: E-Bülten Kutusu -->
+        <section class="newsletter-section reveal">
+            <div class="newsletter-card">
+                <h2>Işıltılı Haberler Alın! 💌</h2>
+                <p>Yeni cilt bakım tüyoları ve makaleler yayınlandığında ilk senin haberin olsun. Spamsiz, sadece güzellik!</p>
+                <div class="newsletter-form">
+                    <input type="email" id="nlEmail" placeholder="E-posta adresin...">
+                    <button type="button" onclick="subscribeNL()">Abone Ol</button>
                 </div>
             </div>
         </section>
@@ -425,7 +475,7 @@
     </div> 
     
     <script>
-        // --- 1. SAYFA İÇİ YUMUŞAK KAYDIRMA ---
+        // --- 1. KAYDIRMA VE REVEAL ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -433,9 +483,7 @@
             });
         });
 
-        // --- 2. ULTRA-PERFORMANSLI REVEAL EFEKTİ ---
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -445,144 +493,170 @@
             });
         }, observerOptions);
 
-        // --- 3. MOBİL MENÜ ---
+        // --- 2. MOBİL MENÜ ---
         const mobileMenu = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
         const menuIcon = mobileMenu.querySelector('i');
 
         mobileMenu.addEventListener('click', () => {
             navList.classList.toggle('active');
-            if(navList.classList.contains('active')) {
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-times');
-            } else {
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            }
+            menuIcon.className = navList.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
         });
 
-        document.querySelectorAll('nav ul li a').forEach(link => {
-            link.addEventListener('click', () => {
-                navList.classList.remove('active');
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            });
-        });
-
-        // --- 4. ANKET İŞLEVİ ---
+        // --- 3. ANKET İŞLEVİ ---
         const adviceData = {
-            'nem': {
-                title: '💧 Hedef: Neme Doymuş, Dolgun Bir Cilt!',
-                text: 'İlk adımın cildini kurutmayan nazik bir temizleyici kullanmak olmalı. Ardından cildin hafif ıslakken <span class="highlight">Hyalüronik Asit</span> uygulayıp, nemi cilde hapsetmek için <span class="highlight">Seramid</span> içeren yoğun bir bariyer kremi ile rutini sonlandırmalısın. Düzenli su içmeyi unutma!'
-            },
-            'leke': {
-                title: '✨ Hedef: Pürüzsüz ve Aydınlık Bir Görünüm!',
-                text: 'Sabah rutininde mutlaka <span class="highlight">C Vitamini</span> serumu ve yaz-kış fark etmeksizin en az 50 SPF güneş kremi kullanmalısın. Akşamları ise hücre yenilenmesini desteklemek ve lekelerle savaşmak için <span class="highlight">AHA (Glikolik veya Laktik Asit)</span> içeren toniklere şans verebilirsin.'
-            },
-            'yaslanma': {
-                title: '⏳ Hedef: Sıkı ve Esnek Bir Cilt!',
-                text: '<span class="highlight">Retinol (A Vitamini)</span> akşam rutinlerinin vazgeçilmezi olmalı. Ancak cildini yavaş yavaş alıştırarak kullanmaya dikkat et. Gündüzleri ise kolajen üretimini destekleyen peptit içerikli serumlar ve güneş kremi ile cildini yaşlanma etkilerine karşı koruma altına almalısın.'
-            },
-            'sivilce': {
-                title: '🌿 Hedef: Temiz Gözenekler ve Pürüzsüz Doku!',
-                text: 'Gözeneklerin içine nüfuz edip yağı çözebilen <span class="highlight">BHA (Salisilik Asit)</span> en yakın dostun. Haftada 2-3 kez BHA içeren bir ürün kullan. Cildini nemsiz bırakmamak çok önemli; su bazlı, gözenek tıkamayan (non-comedogenic) hafif bir nemlendirici tercih etmelisin.'
-            }
+            'nem': { title: '💧 Hedef: Neme Doymuş, Dolgun Bir Cilt!', text: 'İlk adımın cildini kurutmayan nazik bir temizleyici kullanmak olmalı. Ardından cildin hafif ıslakken <span class="highlight">Hyalüronik Asit</span> uygulayıp, nemi cilde hapsetmek için <span class="highlight">Seramid</span> içeren yoğun bir bariyer kremi ile rutini sonlandırmalısın.' },
+            'leke': { title: '✨ Hedef: Pürüzsüz ve Aydınlık Bir Görünüm!', text: 'Sabah rutininde mutlaka <span class="highlight">C Vitamini</span> serumu ve yaz-kış fark etmeksizin en az 50 SPF güneş kremi kullanmalısın. Akşamları ise hücre yenilenmesini desteklemek için <span class="highlight">AHA</span> içeren toniklere şans verebilirsin.' },
+            'yaslanma': { title: '⏳ Hedef: Sıkı ve Esnek Bir Cilt!', text: '<span class="highlight">Retinol (A Vitamini)</span> akşam rutinlerinin vazgeçilmezi olmalı. Gündüzleri ise kolajen üretimini destekleyen peptit içerikli serumlar ve güneş kremi ile cildini yaşlanma etkilerine karşı koruma altına almalısın.' },
+            'sivilce': { title: '🌿 Hedef: Temiz Gözenekler ve Pürüzsüz Doku!', text: 'Gözeneklerin içine nüfuz edip yağı çözebilen <span class="highlight">BHA (Salisilik Asit)</span> en yakın dostun. Haftada 2-3 kez BHA içeren bir ürün kullan ve gözenek tıkamayan hafif bir nemlendirici tercih et.' }
         };
 
         function submitSurvey(goalKey) {
             document.getElementById('surveyOptions').style.display = 'none';
             document.querySelector('.survey-section p.subtitle').style.display = 'none';
-            
             document.getElementById('resultTitle').innerHTML = adviceData[goalKey].title;
             document.getElementById('resultText').innerHTML = adviceData[goalKey].text;
-            
             document.getElementById('surveyResult').style.display = 'block';
         }
-
         function resetSurvey() {
             document.getElementById('surveyResult').style.display = 'none';
             document.getElementById('surveyOptions').style.display = 'flex';
             document.querySelector('.survey-section p.subtitle').style.display = 'block';
         }
 
-        // --- 5. ÜRÜN MODAL İŞLEMLERİ ---
+        // --- 4. ÜRÜN MODALLARI ---
         const productData = {
-            'hyaluronik': {
-                title: 'Hyalüronik Asit Serum',
-                img: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=800&q=80',
-                desc: 'Cilt bariyerini güçlendirerek gün boyu süren derinlemesine nem sağlar. Alt katmanlara inerek suyu hapseder ve ince çizgilerin görünümünü gözle görülür şekilde azaltır.',
-                features: ['%2 Saf Hyalüronik Asit', 'B5 Vitamini ile zenginleştirilmiş formül', 'Parfümsüz ve vegan içerik', 'Hassas ciltler dahil tüm cilt tiplerine uygun'],
-                where: 'Tüm yetkili dermatolog kliniklerinde, anlaşmalı eczanelerde ve online mağazamızda stoklarda.'
-            },
-            'cvitamini': {
-                title: 'C Vitamini Kompleksi',
-                img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=800&q=80',
-                desc: 'Antioksidan gücüyle cilt tonunu eşitler ve yorgun görünüme karşı savaşarak doğal ışıltınızı ortaya çıkarır. Güneşin yarattığı serbest radikallere karşı cildi savunur.',
-                features: ['%15 Saf L-Askorbik Asit', 'E Vitamini ve Ferulik Asit desteği', 'Koyu leke görünümünü azaltır', 'Özellikle sabah kullanımına uygun formül'],
-                where: 'Seçkin güzellik ve bakım merkezleri ile online mağazamızda satışa sunulmuştur.'
-            },
-            'seramid': {
-                title: 'Seramid Onarıcı Krem',
-                img: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=800&q=80',
-                desc: 'Hassaslaşmış ciltler için anında yatıştırma sağlar. Çevresel faktörlere (soğuk, rüzgar, kirlilik) karşı cildiniz için koruyucu bir kalkan oluşturarak nem kaybını önler.',
-                features: ['3 Temel Seramid (1, 3, 6-II) Kompleksi', 'Niasinamid ile kızarıklık yatıştırıcı etki', 'Komedojenik değildir, gözenek tıkamaz', 'Dermatolojik olarak test edilmiştir'],
-                where: 'Sadece uzman dermatolog klinikleri ve online mağazamız üzerinden temin edilebilir.'
-            },
-            'spf50': {
-                title: 'Geniş Spektrumlu SPF 50',
-                img: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=800&q=80',
-                desc: 'Lekelenmeye ve erken yaşlanmaya karşı cildi tam koruma altına alır. Beyaz iz bırakmayan hafif dokusu ile makyaj altına mükemmel bir baz görevi görür.',
-                features: ['Geniş spektrumlu UVA ve UVB koruması', 'Su bazlı ekstra hafif doku', 'No white-cast (Beyaz iz bırakmaz)', 'Terlemeye ve suya karşı dayanıklı'],
-                where: 'Tüm yetkili eczaneler, dev kozmetik marketleri zincirleri ve online.'
-            },
-            'niasinamid': {
-                title: '%10 Niasinamid B3 Serum',
-                img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80',
-                desc: 'Genişlemiş gözenek görünümünü sıkılaştırır ve cilt tonu eşitsizliklerini hedefler. Cilt bariyerini güçlendirerek sivilce oluşumunu engellemeye yardımcı olur.',
-                features: ['%10 Saf Niasinamid', 'Çinko (Zinc PCA) ile sebum kontrolü', 'Kızarıklık ve leke karşıtı', 'Hafif, yapışkan his bırakmayan doku'],
-                where: 'Online mağazamızda ve anlaşmalı eczanelerde.'
-            },
-            'gozkremi': {
-                title: 'Kafein & Peptit Göz Kremi',
-                img: 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=800&q=80',
-                desc: 'Göz altı torbalanmalarını ve koyu halka görünümünü azaltmaya yardımcı olur. İçeriğindeki peptitler ile ince çizgi görünümünü pürüzsüzleştirir.',
-                features: ['%5 Kafein solüsyonu', 'Çoklu peptit kompleksi', 'Hızlı emilen jel-krem form', 'Dermatolojik ve oftalmolojik olarak test edilmiştir'],
-                where: 'Tüm yetkili eczanelerde ve online mağazamızda.'
-            }
+            'hyaluronik': { title: 'Hyalüronik Asit Serum', img: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=800&q=80', desc: 'Cilt bariyerini güçlendirerek gün boyu süren derinlemesine nem sağlar.', features: ['%2 Saf Hyalüronik Asit', 'B5 Vitamini ile zenginleştirilmiş formül'], where: 'Tüm yetkili dermatolog kliniklerinde.' },
+            'cvitamini': { title: 'C Vitamini Kompleksi', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=800&q=80', desc: 'Antioksidan gücüyle cilt tonunu eşitler ve yorgun görünüme karşı savaşarak doğal ışıltınızı ortaya çıkarır.', features: ['%15 Saf L-Askorbik Asit', 'Koyu leke görünümünü azaltır'], where: 'Online mağazamızda satışa sunulmuştur.' },
+            'seramid': { title: 'Seramid Onarıcı Krem', img: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=800&q=80', desc: 'Hassaslaşmış ciltler için anında yatıştırma sağlar.', features: ['3 Temel Seramid Kompleksi', 'Niasinamid ile kızarıklık yatıştırıcı'], where: 'Online mağazamız üzerinden temin edilebilir.' },
+            'spf50': { title: 'Geniş Spektrumlu SPF 50', img: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=800&q=80', desc: 'Lekelenmeye ve erken yaşlanmaya karşı cildi tam koruma altına alır.', features: ['Geniş spektrumlu koruma', 'No white-cast (Beyaz iz bırakmaz)'], where: 'Tüm yetkili eczaneler.' },
+            'niasinamid': { title: '%10 Niasinamid B3 Serum', img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80', desc: 'Genişlemiş gözenek görünümünü sıkılaştırır ve cilt tonu eşitsizliklerini hedefler.', features: ['%10 Saf Niasinamid', 'Çinko (Zinc PCA) ile sebum kontrolü'], where: 'Online mağazamızda ve anlaşmalı eczanelerde.' },
+            'gozkremi': { title: 'Kafein & Peptit Göz Kremi', img: 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=800&q=80', desc: 'Göz altı torbalanmalarını ve koyu halka görünümünü azaltmaya yardımcı olur.', features: ['%5 Kafein solüsyonu', 'Çoklu peptit kompleksi'], where: 'Tüm yetkili eczanelerde.' }
         };
 
         const productModal = document.getElementById('productModal');
-        
         function openProductModal(productId) {
             const data = productData[productId];
-            
             document.getElementById('pm-img').src = data.img;
             document.getElementById('pm-title').innerText = data.title;
             document.getElementById('pm-desc').innerText = data.desc;
             document.getElementById('pm-where-text').innerText = data.where;
-            
             const featuresList = document.getElementById('pm-features-list');
             featuresList.innerHTML = '';
-            data.features.forEach(feature => {
-                const li = document.createElement('li');
-                li.innerText = feature;
-                featuresList.appendChild(li);
+            data.features.forEach(f => {
+                let li = document.createElement('li'); li.innerText = f; featuresList.appendChild(li);
             });
-            
             productModal.classList.add('active');
         }
+        function closeProductModal() { productModal.classList.remove('active'); }
 
-        function closeProductModal() {
-            productModal.classList.remove('active');
+        // --- 5. YENİ: BLOG KATEGORİ FİLTRELEME ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const blogCards = document.querySelectorAll('.blog-card');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Aktif butonu değiştir
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filterValue = btn.getAttribute('data-filter');
+                
+                // Kartları gizle/göster
+                blogCards.forEach(card => {
+                    if(filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'flex';
+                        // Animasyonu tetiklemek için ufak bekleme
+                        setTimeout(() => card.style.opacity = '1', 50);
+                    } else {
+                        card.style.display = 'none';
+                        card.style.opacity = '0';
+                    }
+                });
+            });
+        });
+
+        // --- 6. YENİ: CANLI ARAMA (SEARCH) ---
+        const searchBtn = document.getElementById('openSearchBtn');
+        const searchOverlay = document.getElementById('searchOverlay');
+        const closeSearchBtn = document.getElementById('closeSearchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const searchResultsBox = document.getElementById('searchResultsBox');
+
+        // Blog veritabanımız (Arama için)
+        const blogDatabase = [
+            { title: 'Asit Kullanım Rehberi: AHA, BHA ve PHA Farkları', cat: 'İçerik Bilimi', link: 'içerikbilimi.html' },
+            { title: 'Biyoteknolojik Cilt Bakımı: Geleceğin Formülleri', cat: 'Wellness', link: 'wellness.html' },
+            { title: 'Kış Aylarında Cilt Bariyerini Korumak İçin 5 Altın Kural', cat: 'Rutin', link: 'rutin.html' },
+            { title: 'Cilt Mikrobiyomu Neden Yeni Odak Noktamız?', cat: 'Trendler', link: 'trendler.html' },
+            { title: 'Hyalüronik Asit Ne İşe Yarar?', cat: 'Ürün İçeriği', link: '#products' },
+            { title: 'Sivilceli Ciltler İçin Temizlik Tüyoları', cat: 'Rutin', link: '#blog' }
+        ];
+
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            searchOverlay.classList.add('active');
+            setTimeout(() => searchInput.focus(), 100);
+        });
+
+        closeSearchBtn.addEventListener('click', () => {
+            searchOverlay.classList.remove('active');
+            searchInput.value = '';
+            searchResultsBox.innerHTML = '';
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            searchResultsBox.innerHTML = '';
+            
+            if(query.length > 1) {
+                const results = blogDatabase.filter(b => b.title.toLowerCase().includes(query) || b.cat.toLowerCase().includes(query));
+                
+                if(results.length > 0) {
+                    results.forEach(res => {
+                        searchResultsBox.innerHTML += `
+                            <a href="${res.link}" class="search-item" onclick="document.getElementById('searchOverlay').classList.remove('active')">
+                                <div class="search-item-cat">${res.cat}</div>
+                                <div class="search-item-title">${res.title}</div>
+                            </a>
+                        `;
+                    });
+                } else {
+                    searchResultsBox.innerHTML = `<p style="color:var(--text-muted); font-size:1.2rem; padding: 20px;">Maalesef sonuç bulunamadı 🥲</p>`;
+                }
+            }
+        });
+
+        // --- 7. YENİ: SOSYAL PAYLAŞIM (WEB SHARE API) ---
+        function shareArticle(title, url) {
+            const shareData = {
+                title: title + ' | Glow & Care',
+                text: 'Glow & Care blogunda bu harika yazıyı okumalısın!',
+                url: window.location.href.replace('index.html', '') + url
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(err => console.log('Paylaşım iptal edildi.'));
+            } else {
+                alert("Bağlantı kopyalandı! Arkadaşlarınla paylaşabilirsin: " + shareData.url);
+            }
         }
 
-        // --- 6. GOOGLE İLE GİRİŞ VE GENEL MODAL KAPATMA İŞLEMLERİ ---
-        const loginModal = document.getElementById('loginModal');
-        const openLoginBtn = document.getElementById('openLoginBtn');
-        const closeLoginBtn = document.getElementById('closeLoginBtn');
+        // --- 8. YENİ: E-BÜLTEN ABONELİĞİ ---
+        function subscribeNL() {
+            const email = document.getElementById('nlEmail').value;
+            if(email.includes('@') && email.includes('.')) {
+                alert('Tebrikler! 💖 Artık ışıltılı haberler kutuna düşecek.');
+                document.getElementById('nlEmail').value = '';
+            } else {
+                alert('Lütfen geçerli bir e-posta adresi gir.');
+            }
+        }
 
-        openLoginBtn.addEventListener('click', () => { loginModal.classList.add('active'); });
-        closeLoginBtn.addEventListener('click', () => { loginModal.classList.remove('active'); });
+        // --- 9. GOOGLE GİRİŞ VE DİĞER MODALLAR ---
+        const loginModal = document.getElementById('loginModal');
+        document.getElementById('openLoginBtn').addEventListener('click', () => loginModal.classList.add('active'));
+        document.getElementById('closeLoginBtn').addEventListener('click', () => loginModal.classList.remove('active'));
         
         window.addEventListener('click', (e) => { 
             if (e.target === loginModal) loginModal.classList.remove('active'); 
@@ -592,12 +666,8 @@
         function decodeJwtResponse(token) {
             let base64Url = token.split('.')[1];
             let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
+            return JSON.parse(decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
         }
-
         function handleCredentialResponse(response) {
             const responsePayload = decodeJwtResponse(response.credential);
             loginModal.classList.remove('active');
@@ -606,26 +676,18 @@
             document.getElementById('userName').innerText = responsePayload.given_name;
             document.getElementById('userAvatar').src = responsePayload.picture;
         }
-
         document.getElementById('logoutBtn').addEventListener('click', () => {
             document.getElementById('loginNavItem').style.display = 'block';
             document.getElementById('userProfileItem').style.display = 'none';
         });
 
         window.onload = function () {
-            document.querySelectorAll(".reveal").forEach(el => {
-                revealObserver.observe(el);
-            });
-            
+            document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
             google.accounts.id.initialize({
                 client_id: "360570378366-eqgg07dufk21oe1uufqtehecmbai5c4n.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
-            
-            google.accounts.id.renderButton(
-                document.getElementById("buttonDiv"),
-                { theme: "outline", size: "large", shape: "pill" } 
-            );
+            google.accounts.id.renderButton(document.getElementById("buttonDiv"), { theme: "outline", size: "large", shape: "pill" });
         }
     </script>
 </body>
