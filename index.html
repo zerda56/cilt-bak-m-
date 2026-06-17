@@ -68,15 +68,32 @@
         .btn:hover { background-color: var(--primary-hover); transform: scale(1.05); box-shadow: 0 6px 20px rgba(255, 117, 140, 0.6); }
         .btn-small { padding: 8px 20px; font-size: 0.9rem; opacity: 1; animation: none; }
 
+        /* Modal Genel Stilleri */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content { background-color: #fff; padding: 40px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; transform: translateY(20px); transition: all 0.3s ease; border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(0,0,0,0.1); }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.3s; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.3s; z-index: 10; }
         .modal-close:hover { color: var(--primary-color); }
+        
+        /* Giriş Modalı */
+        .login-modal-content { background-color: #fff; padding: 40px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; transform: translateY(20px); transition: all 0.3s ease; border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(0,0,0,0.1); position: relative; }
+        .modal-overlay.active .login-modal-content { transform: translateY(0); }
         .modal-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; color: var(--text-color); }
         .modal-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
         
+        /* ÜRÜN DETAY MODALI */
+        .product-modal-content { background-color: #fff; border-radius: 24px; width: 90%; max-width: 800px; display: flex; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(255, 117, 140, 0.15); overflow: hidden; position: relative; }
+        .modal-overlay.active .product-modal-content { transform: translateY(0); }
+        .product-modal-img-container { flex: 1; min-width: 350px; position: relative; }
+        .product-modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .product-modal-info { flex: 1.2; padding: 40px; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+        .product-modal-info h2 { font-size: 2rem; color: var(--text-color); margin-bottom: 10px; line-height: 1.2; }
+        .product-modal-info p.desc { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 25px; line-height: 1.6; }
+        .pm-features h4, .pm-where h4 { color: var(--primary-color); font-size: 1.1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .pm-features ul { list-style-type: none; margin-bottom: 20px; }
+        .pm-features ul li { color: var(--text-color); font-size: 0.95rem; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; }
+        .pm-features ul li::before { content: "✓"; color: var(--primary-color); font-weight: bold; }
+        .pm-where p { color: var(--text-color); font-size: 0.95rem; margin-bottom: 30px; }
+
         .user-profile { display: none; align-items: center; gap: 15px; background: #fff; padding: 5px 15px; border-radius: 30px; border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(255, 117, 140, 0.1); }
         .user-profile img { width: 30px; height: 30px; border-radius: 50%; }
         .user-profile span { font-size: 0.9rem; font-weight: 500; color: var(--text-color); }
@@ -87,18 +104,38 @@
         .models { padding: 4rem 5% 8rem; text-align: center; }
         .models h2 { font-size: 3rem; margin-bottom: 4rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); }
         
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 50px; max-width: 1200px; margin: 0 auto; }
+        /* GÜNCELLEME: Kartların yan yana daha kibar durması için max-width düşürüldü ve boşluk ayarlandı */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; }
         
         .card { background-color: var(--card-bg); border-radius: 24px; overflow: hidden; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s, box-shadow 0.4s; display: flex; flex-direction: column; text-align: left; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); backdrop-filter: blur(10px); }
         .card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 15px 40px rgba(255, 117, 140, 0.2); }
         
-        .card img { width: 100%; height: 380px; object-fit: cover; }
-        .card-content { padding: 40px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        /* GÜNCELLEME: Resim boyu daha zarif bir görünüme kavuşması için 300px'e çekildi */
+        .card img { width: 100%; height: 300px; object-fit: cover; }
         
-        .card h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; letter-spacing: -0.5px; color: var(--text-color); }
-        .card p { margin-bottom: 30px; color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; }
-        .card-btn { align-self: flex-start; padding: 12px 28px; background-color: var(--primary-color); color: white; border-radius: 30px; text-decoration: none; transition: all 0.3s ease; font-size: 1.05rem; font-weight: 600; }
+        /* GÜNCELLEME: İç boşluklar 30px'e düşürüldü */
+        .card-content { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .card h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; color: var(--text-color); }
+        .card p { margin-bottom: 20px; color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+        .card-btn { align-self: flex-start; padding: 10px 24px; background-color: var(--primary-color); color: white; border-radius: 30px; text-decoration: none; transition: all 0.3s ease; font-size: 1rem; font-weight: 600; border: none; cursor: pointer; font-family: inherit; }
         .card-btn:hover { background-color: var(--primary-hover); transform: scale(1.05); }
+
+        .survey-section { position: relative; padding: 7rem 5%; text-align: center; margin: 4rem 5%; border-radius: 40px; border: 1px solid rgba(255, 117, 140, 0.3); background: radial-gradient(circle at center, rgba(255, 117, 140, 0.15) 0%, rgba(253, 251, 247, 0) 70%), var(--card-bg); box-shadow: 0 0 80px rgba(255, 117, 140, 0.15); overflow: hidden; z-index: 1; }
+        .survey-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: var(--primary-color); filter: blur(120px); opacity: 0.15; z-index: -1; pointer-events: none; }
+        .survey-section h2 { font-size: 2.8rem; margin-bottom: 1rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); position: relative; }
+        .survey-section p.subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; }
+        
+        .survey-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 900px; margin: 0 auto; position: relative; }
+        .survey-btn { flex: 1 1 calc(50% - 20px); min-width: 250px; padding: 24px; font-size: 1.2rem; font-weight: 600; color: var(--text-color); background: rgba(255, 255, 255, 0.9); border: 2px solid transparent; border-radius: 20px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 5px 20px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; gap: 10px; backdrop-filter: blur(10px); }
+        .survey-btn:hover { border-color: var(--primary-color); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(255, 117, 140, 0.3); color: var(--primary-color); }
+        
+        .survey-result { display: none; margin-top: 2rem; padding: 50px 40px; background: rgba(255, 255, 255, 0.95); border-radius: 24px; border: 1px solid rgba(255, 117, 140, 0.4); box-shadow: 0 20px 40px rgba(255, 117, 140, 0.1); animation: fadeUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; max-width: 700px; margin-left: auto; margin-right: auto; position: relative; backdrop-filter: blur(10px); }
+        .survey-result h3 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.8rem; font-weight: 800; }
+        .survey-result p { color: var(--text-color); font-size: 1.15rem; line-height: 1.7; margin-bottom: 0; }
+        .survey-result .highlight { font-weight: 700; color: var(--text-color); }
+        .reset-btn { margin-top: 25px; background: none; border: none; color: var(--text-muted); text-decoration: underline; cursor: pointer; font-size: 0.95rem; transition: color 0.3s; }
+        .reset-btn:hover { color: var(--primary-hover); }
 
         .blog-section { padding: 8rem 5%; }
         .blog-header { text-align: center; margin-bottom: 4rem; }
@@ -120,83 +157,6 @@
         .read-more i { font-size: 0.9rem; transition: transform 0.3s; }
         .read-more:hover { color: var(--primary-hover); }
         .read-more:hover i { transform: translateX(5px); }
-
-        /* YENİDEN DÜZENLENEN: Anket (Survey) Bölümü - Ambiyans Işık Efekti */
-        .survey-section { 
-            position: relative;
-            padding: 7rem 5%; 
-            text-align: center; 
-            margin: 4rem 5%; 
-            border-radius: 40px; 
-            border: 1px solid rgba(255, 117, 140, 0.3); 
-            background: radial-gradient(circle at center, rgba(255, 117, 140, 0.15) 0%, rgba(253, 251, 247, 0) 70%), var(--card-bg);
-            box-shadow: 0 0 80px rgba(255, 117, 140, 0.15);
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        /* Işık kaynağı (Arka plandan sızan yoğun pembe glow) */
-        .survey-section::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%;
-            height: 70%;
-            background: var(--primary-color);
-            filter: blur(120px);
-            opacity: 0.15;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .survey-section h2 { font-size: 2.8rem; margin-bottom: 1rem; font-weight: 700; letter-spacing: -1px; color: var(--text-color); position: relative; }
-        .survey-section p.subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; }
-        
-        .survey-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 900px; margin: 0 auto; position: relative; }
-        .survey-btn { 
-            flex: 1 1 calc(50% - 20px); 
-            min-width: 250px; 
-            padding: 24px; 
-            font-size: 1.2rem; 
-            font-weight: 600; 
-            color: var(--text-color); 
-            background: rgba(255, 255, 255, 0.9); 
-            border: 2px solid transparent; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.04); 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-        }
-        .survey-btn:hover { border-color: var(--primary-color); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(255, 117, 140, 0.3); color: var(--primary-color); }
-        
-        /* Gelişmiş Sonuç Kutusu */
-        .survey-result { 
-            display: none; 
-            margin-top: 2rem; 
-            padding: 50px 40px; 
-            background: rgba(255, 255, 255, 0.95); 
-            border-radius: 24px; 
-            border: 1px solid rgba(255, 117, 140, 0.4); 
-            box-shadow: 0 20px 40px rgba(255, 117, 140, 0.1);
-            animation: fadeUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; 
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            backdrop-filter: blur(10px);
-        }
-        .survey-result h3 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.8rem; font-weight: 800; }
-        .survey-result p { color: var(--text-color); font-size: 1.15rem; line-height: 1.7; margin-bottom: 0; }
-        .survey-result .highlight { font-weight: 700; color: var(--text-color); }
-        .reset-btn { margin-top: 25px; background: none; border: none; color: var(--text-muted); text-decoration: underline; cursor: pointer; font-size: 0.95rem; transition: color 0.3s; }
-        .reset-btn:hover { color: var(--primary-hover); }
 
         .contact-section { padding: 6rem 5% 3rem; text-align: center; }
         .contact-section h2 { font-size: 3rem; color: var(--text-color); margin-bottom: 1.5rem; font-weight: 700; letter-spacing: -1px; }
@@ -227,6 +187,10 @@
             .grid { grid-template-columns: 1fr; }
             .survey-btn { flex: 1 1 100%; }
             .survey-section { padding: 4rem 20px; margin: 2rem 20px; }
+
+            .product-modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; }
+            .product-modal-img-container { min-height: 250px; flex: none; }
+            .product-modal-info { padding: 25px; }
         }
     </style>
 </head>
@@ -260,12 +224,42 @@
         </nav>
     </header>
 
+    <!-- Giriş Modalı -->
     <div class="modal-overlay" id="loginModal">
-        <div class="modal-content">
+        <div class="modal-content login-modal-content">
             <i class="fas fa-times modal-close" id="closeLoginBtn"></i>
             <h2 class="modal-title">Glow & Care</h2>
             <p class="modal-desc">Sana özel cilt bakım rutini ve ipuçları için Google hesabınla giriş yap.</p>
             <div id="buttonDiv" style="display: flex; justify-content: center;"></div>
+        </div>
+    </div>
+
+    <!-- ÜRÜN DETAY MODALI -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content product-modal-content">
+            <i class="fas fa-times modal-close" onclick="closeProductModal()"></i>
+            
+            <div class="product-modal-img-container">
+                <img id="pm-img" src="" alt="Ürün Görseli">
+            </div>
+            
+            <div class="product-modal-info">
+                <h2 id="pm-title">Ürün Başlığı</h2>
+                <p id="pm-desc" class="desc">Açıklama metni buraya gelecek.</p>
+                
+                <div class="pm-features">
+                    <h4><i class="fas fa-leaf"></i> Öne Çıkan Özellikler</h4>
+                    <ul id="pm-features-list">
+                    </ul>
+                </div>
+                
+                <div class="pm-where">
+                    <h4><i class="fas fa-map-marker-alt"></i> Nerede Bulunur?</h4>
+                    <p id="pm-where-text">Satış noktaları buraya gelecek.</p>
+                </div>
+                
+                <button class="btn" style="width: 100%; margin-top: 10px;" onclick="closeProductModal()">Kapat</button>
+            </div>
         </div>
     </div>
 
@@ -288,7 +282,7 @@
                             <h3>Hyalüronik Asit Serum</h3>
                             <p>Cilt bariyerini güçlendirerek gün boyu süren derinlemesine nem sağlar. İnce çizgilerin görünümünü azaltır.</p>
                         </div>
-                       <a href="içerikbilimi.html" class="card-btn">İncele</a>
+                       <button class="card-btn" onclick="openProductModal('hyaluronik')">İncele</button>
                     </div>
                 </div>
 
@@ -299,7 +293,7 @@
                             <h3>C Vitamini Kompleksi</h3>
                             <p>Antioksidan gücüyle cilt tonunu eşitler ve yorgun görünüme karşı savaşarak doğal ışıltınızı ortaya çıkarır.</p>
                         </div>
-                        <a href="#" class="card-btn">İncele</a>
+                        <button class="card-btn" onclick="openProductModal('cvitamini')">İncele</button>
                     </div>
                 </div>
 
@@ -310,7 +304,7 @@
                             <h3>Seramid Onarıcı Krem</h3>
                             <p>Hassaslaşmış ciltler için anında yatıştırma. Çevresel faktörlere karşı cildiniz için koruyucu bir kalkan.</p>
                         </div>
-                        <a href="#" class="card-btn">İncele</a>
+                        <button class="card-btn" onclick="openProductModal('seramid')">İncele</button>
                     </div>
                 </div>
                 
@@ -321,14 +315,37 @@
                             <h3>Geniş Spektrumlu SPF 50</h3>
                             <p>Lekelenmeye karşı etkili, beyaz iz bırakmayan ve makyaj altına mükemmel uyum sağlayan koruma.</p>
                         </div>
-                        <a href="#" class="card-btn">İncele</a>
+                        <button class="card-btn" onclick="openProductModal('spf50')">İncele</button>
+                    </div>
+                </div>
+
+                <!-- Niasinamid Serum -->
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80" alt="Niasinamid Serum">
+                    <div class="card-content">
+                        <div>
+                            <h3>%10 Niasinamid B3 Serum</h3>
+                            <p>Genişlemiş gözenek görünümünü sıkılaştırır ve cilt tonu eşitsizliklerini hedefler. Sivilce oluşumunu engellemeye yardımcı olur.</p>
+                        </div>
+                        <button class="card-btn" onclick="openProductModal('niasinamid')">İncele</button>
+                    </div>
+                </div>
+
+                <!-- Göz Kremi GÖRSELİ GÜNCELLENDİ -->
+                <div class="card reveal">
+                    <img src="https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=800&q=80" alt="Göz Kremi">
+                    <div class="card-content">
+                        <div>
+                            <h3>Kafein & Peptit Göz Kremi</h3>
+                            <p>Göz altı torbalanmalarını ve koyu halka görünümünü azaltmaya yardımcı olur. İnce çizgi görünümünü pürüzsüzleştirir.</p>
+                        </div>
+                        <button class="card-btn" onclick="openProductModal('gozkremi')">İncele</button>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <!-- YENİDEN YAZILAN BÖLÜM: İnteraktif ve Bilgilendirici Cilt Analizi -->
         <section class="survey-section reveal" id="survey">
             <h2>Cilt Bakım Hedefin Nedir?</h2>
             <p class="subtitle">Sana en uygun ürünleri ve rutinleri önerebilmemiz için şu an cildinde en çok neye odaklanmak istediğini seç.</p>
@@ -454,7 +471,7 @@
             });
         });
 
-        // --- 4. YENİ BİLGİLENDİRİCİ ANKET İŞLEVİ ---
+        // --- 4. ANKET İŞLEVİ ---
         const adviceData = {
             'nem': {
                 title: '💧 Hedef: Neme Doymuş, Dolgun Bir Cilt!',
@@ -490,14 +507,89 @@
             document.querySelector('.survey-section p.subtitle').style.display = 'block';
         }
 
-        // --- 5. GOOGLE İLE GİRİŞ YAPMA ---
+        // --- 5. ÜRÜN MODAL İŞLEMLERİ (YENİ ÜRÜNLER VE GÜNCEL GÖRSELLER) ---
+        const productData = {
+            'hyaluronik': {
+                title: 'Hyalüronik Asit Serum',
+                img: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=800&q=80',
+                desc: 'Cilt bariyerini güçlendirerek gün boyu süren derinlemesine nem sağlar. Alt katmanlara inerek suyu hapseder ve ince çizgilerin görünümünü gözle görülür şekilde azaltır.',
+                features: ['%2 Saf Hyalüronik Asit', 'B5 Vitamini ile zenginleştirilmiş formül', 'Parfümsüz ve vegan içerik', 'Hassas ciltler dahil tüm cilt tiplerine uygun'],
+                where: 'Tüm yetkili dermatolog kliniklerinde, anlaşmalı eczanelerde ve online mağazamızda stoklarda.'
+            },
+            'cvitamini': {
+                title: 'C Vitamini Kompleksi',
+                img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=800&q=80',
+                desc: 'Antioksidan gücüyle cilt tonunu eşitler ve yorgun görünüme karşı savaşarak doğal ışıltınızı ortaya çıkarır. Güneşin yarattığı serbest radikallere karşı cildi savunur.',
+                features: ['%15 Saf L-Askorbik Asit', 'E Vitamini ve Ferulik Asit desteği', 'Koyu leke görünümünü azaltır', 'Özellikle sabah kullanımına uygun formül'],
+                where: 'Seçkin güzellik ve bakım merkezleri ile online mağazamızda satışa sunulmuştur.'
+            },
+            'seramid': {
+                title: 'Seramid Onarıcı Krem',
+                img: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=800&q=80',
+                desc: 'Hassaslaşmış ciltler için anında yatıştırma sağlar. Çevresel faktörlere (soğuk, rüzgar, kirlilik) karşı cildiniz için koruyucu bir kalkan oluşturarak nem kaybını önler.',
+                features: ['3 Temel Seramid (1, 3, 6-II) Kompleksi', 'Niasinamid ile kızarıklık yatıştırıcı etki', 'Komedojenik değildir, gözenek tıkamaz', 'Dermatolojik olarak test edilmiştir'],
+                where: 'Sadece uzman dermatolog klinikleri ve online mağazamız üzerinden temin edilebilir.'
+            },
+            'spf50': {
+                title: 'Geniş Spektrumlu SPF 50',
+                img: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=800&q=80',
+                desc: 'Lekelenmeye ve erken yaşlanmaya karşı cildi tam koruma altına alır. Beyaz iz bırakmayan hafif dokusu ile makyaj altına mükemmel bir baz görevi görür.',
+                features: ['Geniş spektrumlu UVA ve UVB koruması', 'Su bazlı ekstra hafif doku', 'No white-cast (Beyaz iz bırakmaz)', 'Terlemeye ve suya karşı dayanıklı'],
+                where: 'Tüm yetkili eczaneler, dev kozmetik marketleri zincirleri ve online.'
+            },
+            'niasinamid': {
+                title: '%10 Niasinamid B3 Serum',
+                img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80',
+                desc: 'Genişlemiş gözenek görünümünü sıkılaştırır ve cilt tonu eşitsizliklerini hedefler. Cilt bariyerini güçlendirerek sivilce oluşumunu engellemeye yardımcı olur.',
+                features: ['%10 Saf Niasinamid', 'Çinko (Zinc PCA) ile sebum kontrolü', 'Kızarıklık ve leke karşıtı', 'Hafif, yapışkan his bırakmayan doku'],
+                where: 'Online mağazamızda ve anlaşmalı eczanelerde.'
+            },
+            'gozkremi': {
+                title: 'Kafein & Peptit Göz Kremi',
+                img: 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=800&q=80', // Görsel güncellendi
+                desc: 'Göz altı torbalanmalarını ve koyu halka görünümünü azaltmaya yardımcı olur. İçeriğindeki peptitler ile ince çizgi görünümünü pürüzsüzleştirir.',
+                features: ['%5 Kafein solüsyonu', 'Çoklu peptit kompleksi', 'Hızlı emilen jel-krem form', 'Dermatolojik ve oftalmolojik olarak test edilmiştir'],
+                where: 'Tüm yetkili eczanelerde ve online mağazamızda.'
+            }
+        };
+
+        const productModal = document.getElementById('productModal');
+        
+        function openProductModal(productId) {
+            const data = productData[productId];
+            
+            document.getElementById('pm-img').src = data.img;
+            document.getElementById('pm-title').innerText = data.title;
+            document.getElementById('pm-desc').innerText = data.desc;
+            document.getElementById('pm-where-text').innerText = data.where;
+            
+            const featuresList = document.getElementById('pm-features-list');
+            featuresList.innerHTML = '';
+            data.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.innerText = feature;
+                featuresList.appendChild(li);
+            });
+            
+            productModal.classList.add('active');
+        }
+
+        function closeProductModal() {
+            productModal.classList.remove('active');
+        }
+
+        // --- 6. GOOGLE İLE GİRİŞ VE GENEL MODAL KAPATMA İŞLEMLERİ ---
         const loginModal = document.getElementById('loginModal');
         const openLoginBtn = document.getElementById('openLoginBtn');
         const closeLoginBtn = document.getElementById('closeLoginBtn');
 
         openLoginBtn.addEventListener('click', () => { loginModal.classList.add('active'); });
         closeLoginBtn.addEventListener('click', () => { loginModal.classList.remove('active'); });
-        window.addEventListener('click', (e) => { if (e.target === loginModal) loginModal.classList.remove('active'); });
+        
+        window.addEventListener('click', (e) => { 
+            if (e.target === loginModal) loginModal.classList.remove('active'); 
+            if (e.target === productModal) closeProductModal();
+        });
 
         function decodeJwtResponse(token) {
             let base64Url = token.split('.')[1];
