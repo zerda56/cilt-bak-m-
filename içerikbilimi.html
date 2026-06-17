@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHA, BHA ve PHA Farkları Nelerdir? | Glow & Care</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        :root { 
+            --primary-color: #ff758c; 
+            --primary-hover: #ff5c77; 
+            --bg-color: #fdfbf7; 
+            --card-bg: #ffffff; 
+            --text-color: #2c3e50; 
+            --text-muted: #6c7a89; 
+            --border-color: rgba(255, 117, 140, 0.15); 
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { 
+            color: var(--text-color); 
+            line-height: 1.7; 
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+        }
+
+        /* Navigasyon (Sabit ve Beyaz) */
+        header { 
+            background-color: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo { font-size: 1.8rem; color: var(--primary-color); } 
+        .logo-text { font-size: 1.3rem; font-weight: 700; color: var(--text-color); letter-spacing: 0.5px; }
+        .logo-text span { color: var(--primary-color); }
+        
+        .back-btn { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
+        .back-btn:hover { color: var(--primary-hover); }
+
+        /* BAŞLIĞIN ARKASINDAKİ RESİMLİ ALAN (HERO) */
+        .article-hero {
+            width: 100%;
+            height: 70vh; /* Ekranın %70'ini kaplar */
+            min-height: 500px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%), url('arkaplan.jpeg') center/cover no-repeat;
+            display: flex;
+            align-items: flex-end; /* İçeriği alt kısıma yaslar */
+            justify-content: center;
+            padding-bottom: 6rem; /* Makale kutusunun bindirme payı */
+            text-align: center;
+            margin-top: 60px; /* Navbar yüksekliği kadar boşluk */
+        }
+
+        .article-header-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .category { color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px; background: rgba(255, 255, 255, 0.1); padding: 5px 15px; border-radius: 20px; backdrop-filter: blur(5px); }
+        .date { color: #e2e8f0; font-weight: 400; }
+
+        .article-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .article-subtitle {
+            font-size: 1.3rem;
+            color: #cbd5e1;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Makale İçerik Kutusu (Resmin üzerine biniyor) */
+        .article-body-wrapper {
+            max-width: 850px;
+            margin: -4rem auto 4rem auto; /* Negatif üst margin ile resmin üzerine çektik */
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .article-body {
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            font-size: 1.15rem;
+        }
+
+        .article-body h2 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin: 3rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(255, 117, 140, 0.2);
+        }
+
+        .article-body h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 2rem 0 0.5rem;
+        }
+
+        .article-body p {
+            margin-bottom: 1.5rem;
+            color: #4a5568;
+        }
+
+        .article-body strong {
+            color: var(--text-color);
+        }
+
+        .article-body ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: #4a5568;
+        }
+
+        .article-body li {
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight-box {
+            background-color: rgba(255, 117, 140, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 25px;
+            border-radius: 0 16px 16px 0;
+            margin: 2.5rem 0;
+            font-style: italic;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .article-hero { height: 60vh; padding-bottom: 4rem; }
+            .article-title { font-size: 2.2rem; }
+            .article-subtitle { font-size: 1.1rem; }
+            .article-body-wrapper { margin-top: -3rem; }
+            .article-body { padding: 30px 20px; font-size: 1.05rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-container">
+            <i class="fas fa-spa nav-logo"></i>
+            <span class="logo-text">Glow & <span>Care</span></span>
+        </a>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Ana Sayfa</a>
+    </header>
+
+    <section class="article-hero">
+        <div class="article-header-content">
+            <div class="article-meta">
+                <span class="category">İçerik Bilimi</span>
+                <span class="date">8 Mayıs 2026</span>
+            </div>
+            <h1 class="article-title">Asit Kullanım Rehberi: AHA, BHA ve PHA Farkları Nelerdir?</h1>
+            <p class="article-subtitle">Hangi asit türü senin cilt tipine daha uygun? Leke tedavisi, gözenek temizliği ve hassas ciltler için doğru asit seçimi rehberi.</p>
+        </div>
+    </section>
+
+    <main class="article-body-wrapper">
+        <article class="article-body">
+            <p>Cilt bakım dünyasında "asit" kelimesi kulağa korkutucu gelse de, aslında pürüzsüz ve ışıltılı bir cildin en büyük sırrıdır. Kimyasal eksfolyasyon (soyma) işlemi yapan bu asitler, fiziksel peelinglerin aksine cildi çizmeden, ölü hücreleri nazikçe uzaklaştırır. Peki AHA, BHA ve PHA arasındaki temel farklar nelerdir ve hangisi senin için en doğrusudur?</p>
+
+            <div class="highlight-box">
+                Önemli Not: Asit kullanmaya başladığınızda cildinizin güneşe olan hassasiyeti artar. Rutininize asit eklediğiniz dönemlerde gündüzleri en az SPF 50 değerinde geniş spektrumlu güneş kremi kullanmayı ihmal etmeyin.
+            </div>
+
+            <h2>1. AHA (Alfa Hidroksi Asitler)</h2>
+            <p>AHA'lar, genellikle şeker kamışı, süt veya meyvelerden elde edilen <strong>suda çözünür</strong> asitlerdir. Molekül yapıları küçük olduğu için cildin üst katmanına hızla nüfuz ederek ölü deriyi çözerler.</p>
+            
+            <h3>Kimler Tercih Etmeli?</h3>
+            <p>Normalden kuruya dönük ciltler, güneş hasarı, hiperpigmentasyon (leke) ve ince çizgilerinden şikayetçi olanlar için idealdir. Suda çözündükleri için cildin nem tutma kapasitesini de artırırlar.</p>
+            
+            <h3>En Bilinen AHA Türleri:</h3>
+            <ul>
+                <li><strong>Glikolik Asit:</strong> Şeker kamışından elde edilir. Molekül boyutu en küçük olan AHA'dır, bu yüzden en hızlı etkiyi gösterir ancak hassas ciltlerde iritasyon yapabilir.</li>
+                <li><strong>Laktik Asit:</strong> Sütten elde edilir. Glikolik aside göre çok daha naziktir ve ekstra nemlendirme özelliği sunar.</li>
+            </ul>
+
+            <h2>2. BHA (Beta Hidroksi Asitler)</h2>
+            <p>AHA'ların aksine BHA'lar <strong>yağda çözünür</strong>. Bu müthiş özellik, asidin cildin yüzeyinde kalmayıp direkt olarak sebum (yağ) dolu gözeneklerin içine dalabilmesini sağlar.</p>
+
+            <h3>Kimler Tercih Etmeli?</h3>
+            <p>Yağlı, karma, siyah noktalara (komedon) ve akneye meyilli ciltler için kurtarıcıdır. Gözeneklerin içindeki yağı ve kiri çözerek sivilce oluşumunu engeller ve anti-inflamatuar (yangı giderici) özelliği ile kızarık sivilceleri yatıştırır.</p>
+
+            <h3>En Bilinen BHA Türü:</h3>
+            <ul>
+                <li><strong>Salisilik Asit:</strong> Söğüt ağacı kabuğundan elde edilir. Cilt bakımında kullanılan en yaygın BHA formudur.</li>
+            </ul>
+
+            <h2>3. PHA (Poli Hidroksi Asitler)</h2>
+            <p>PHA'lar, cilt bakım ailesinin en yeni ve en nazik üyeleridir. Aslında AHA'ların bir alt grubudurlar ancak <strong>molekül yapıları çok daha büyüktür</strong>. Büyük moleküller cildin alt katmanlarına inemez, sadece en üst yüzeyde çok yavaş ve nazikçe çalışır.</p>
+
+            <h3>Kimler Tercih Etmeli?</h3>
+            <p>Rozasea (gül hastalığı) olanlar, egzama geçmişi bulunanlar ve "AHA sürdüğüm an yüzüm yanıyor" diyen çok hassas ciltliler için mucizevidir.</p>
+
+            <h3>En Bilinen PHA Türleri:</h3>
+            <ul>
+                <li><strong>Glukonolakton ve Laktobiyonik Asit:</strong> Cildi soymaktan çok, antioksidan koruma sağlar ve cilt bariyerini güçlendirerek yoğun nem verirler.</li>
+            </ul>
+
+            <h2>Özetle Nasıl Seçim Yapmalıyım?</h2>
+            <p>Eğer temel amacınız <strong>leke tedavisi, yaşlanma karşıtı bakım ve yüzeydeki matlığı gidermekse</strong> AHA'lara (özellikle Glikolik veya Laktik asit) yönelmelisiniz.</p>
+            <p>Eğer derdiniz <strong>geniş gözenekler, inatçı siyah noktalar, yağlanma ve aktif sivilcelerse</strong> kesinlikle BHA (Salisilik asit) içeren bir ürün seçmelisiniz.</p>
+            <p>Eğer cildiniz <strong>çok hassas, çabuk kızaran ve tepki veren</strong> bir yapıdaysa, risk almadan yavaş ama güvenli çalışan PHA'ları rutininize ekleyebilirsiniz.</p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Glow & Care Cosmetics. Doğal Işıltını Keşfet.</p>
+    </footer>
+
+</body>
+</html>
